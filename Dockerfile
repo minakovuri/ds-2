@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
-WORKDIR /ds-2
 
 # copy everything else and build app
+WORKDIR /ds-2
 COPY src/. .
 
 # build BackendApi
