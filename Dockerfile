@@ -27,8 +27,6 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS backend-api
 WORKDIR /BackendApi
 COPY --from=build /ds-2/BackendApi/bin ./
 
-ENV ASPNETCORE_URLS=http://+:5000
-# EXPOSE 5000
 ENTRYPOINT ["dotnet", "BackendApi.dll"]
 
 # Frontend runtime image
@@ -36,6 +34,4 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS frontend
 WORKDIR /Frontend
 COPY --from=build /ds-2/Frontend/bin ./
 
-ENV ASPNETCORE_URLS=http://+:5001
-# EXPOSE 80
 ENTRYPOINT ["dotnet", "Frontend.dll"]

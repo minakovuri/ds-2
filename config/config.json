@@ -1,0 +1,11 @@
+{
+    "BackendApi": 
+    {
+        "host": "backend-api",
+        "port": 5000
+    },
+    "Frontend": 
+    {
+        "port": 5001
+    }
+}

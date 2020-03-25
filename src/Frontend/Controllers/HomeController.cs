@@ -29,7 +29,7 @@ namespace Frontend.Controllers
         [HttpPost]
         async public Task<IActionResult> HandleAddTaskRequest(String description)
         {
-            using var channel = GrpcChannel.ForAddress("http://backend-api:5000");
+            using var channel = GrpcChannel.ForAddress("http://" + Environment.GetEnvironmentVariable("BACKEND_API_HOST") + ":" + Environment.GetEnvironmentVariable("BACKEND_API_PORT"));
             var client = new Job.JobClient(channel);
             var reply = await client.RegisterAsync(new RegisterRequest { Description = description });
 
