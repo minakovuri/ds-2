@@ -1,5 +1,15 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 
+# Restore BackendApi
+WORKDIR /ds-2/BackendApi
+COPY src/BackendApi/*.csproj .
+RUN dotnet restore
+
+# Restore Frontend
+WORKDIR /ds-2/Frontend
+COPY src/Frontend/*.csproj .
+RUN dotnet restore
+
 # copy everything else and build app
 WORKDIR /ds-2
 COPY src/. .
@@ -16,12 +26,16 @@ RUN dotnet publish -c Release -o bin
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS backend-api
 WORKDIR /BackendApi
 COPY --from=build /ds-2/BackendApi/bin ./
-EXPOSE 5000
+
+ENV ASPNETCORE_URLS=http://+:5000
+# EXPOSE 5000
 ENTRYPOINT ["dotnet", "BackendApi.dll"]
 
 # Frontend runtime image
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS frontend
 WORKDIR /Frontend
 COPY --from=build /ds-2/Frontend/bin ./
-EXPOSE 80
+
+ENV ASPNETCORE_URLS=http://+:5001
+# EXPOSE 80
 ENTRYPOINT ["dotnet", "Frontend.dll"]
